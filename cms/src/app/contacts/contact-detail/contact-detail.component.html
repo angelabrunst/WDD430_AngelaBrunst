@@ -2,11 +2,11 @@
     <div class="panel panel-default">
         <div class="panel-heading col-lg-12">
             <div class="col-md-12">
-                <h2 style="font-weight: bolder;"></h2>
+                <h2 style="font-weight: bolder;">{{ contact.name }}</h2>
             </div>
             <div class="col-sm-5">
                 <span class="pull-left">
-                    <img src="" alt="" class="img-responsive" style="max-height: 100px;">
+                    <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-responsive" style="max-height: 100px;">
                 </span>
             </div>
             <div class="col-sm-7" style="margin-top: 2em;">
@@ -22,8 +22,8 @@
                 <br>
                 <div class="row">
                     <div class="col-xs-12">
-                        <p>Email:</p>
-                        <p>Phone:</p>
+                        <p>Email: {{ contact.email }}</p>
+                        <p>Phone: {{ contact.phone }}</p>
                     </div>
                 </div>
             </div>
