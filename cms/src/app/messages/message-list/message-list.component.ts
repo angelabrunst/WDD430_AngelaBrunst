@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Message } from '../message.model';
 import { MessageService } from '../message.service';
 
@@ -8,6 +8,8 @@ import { MessageService } from '../message.service';
   styleUrls: ['./message-list.component.css']
 })
 export class MessageListComponent implements OnInit{
+  messageChangedEvent = new EventEmitter<Message[]>();
+
   messages: Message[] = [];
 
   constructor(private messageService: MessageService) {}
