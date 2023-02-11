@@ -11,8 +11,8 @@
             </div>
             <div class="col-sm-7" style="margin-top: 2em;">
                 <div class="pull-right">
-                    <button class="btn btn-primary" type="button" style="margin: 5px;">Edit</button>
-                    <button class="btn btn-danger" type="button">Delete</button>
+                    <a [routerLink]="['edit']" class="btn btn-primary" style="margin: 5px;">Edit</a>
+                    <a (click)="onDelete()" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
