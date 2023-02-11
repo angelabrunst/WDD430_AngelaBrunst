@@ -8,9 +8,5 @@ import { Contact } from '../../contact.model';
 })
 export class ContactItemComponent {
   @Input() contact: Contact;
-  @Output() selectedContact = new EventEmitter<Contact>();
 
-  onSelected() {
-    this.selectedContact.emit();
-  }
 }
