@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Contact } from './contact.model';
-import { MOCKCONTACTS } from './MOCKCONTACTS';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -11,15 +10,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ContactService {
   contactListChangedEvent = new Subject<Contact[]>();
   contactSelectedEvent = new EventEmitter<Contact>();
-  // contactChangedEvent = new EventEmitter<Contact[]>()
 
   maxContactId: number;
 
   contacts: Contact[] = [];
 
   constructor(private http: HttpClient) {
-    // this.contacts = MOCKCONTACTS;
-    // this.maxContactId = this.getMaxId();
+    this.contacts = this.getContacts();
   }
 
   getContacts(): Contact[] {
