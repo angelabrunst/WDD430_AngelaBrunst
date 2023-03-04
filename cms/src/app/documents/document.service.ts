@@ -10,11 +10,28 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class DocumentService {
   documentListChangedEvent = new Subject<Document[]>();
   documentSelectedEvent = new EventEmitter<Document>();
-  documentChangedEvent = new EventEmitter<Document[]>();
+
   documents: Document[] = [];
   maxDocumentId: number;
 
   constructor(private http: HttpClient) {}
+
+  getDocuments(): Document[] {
+    this.http
+      .get('https://cms-project-7478d-default-rtdb.firebaseio.com/documents.json')
+      .subscribe(
+      (documents: Document[]) => {
+        this.documents = documents;
+        this.maxDocumentId = this.getMaxId();
+        this.documents.sort();
+        this.documentListChangedEvent.next(this.documents.slice());
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    )
+    return this.documents.slice();
+  }
 
   getDocument(id: string): Document {
     for (let document of this.documents) {
@@ -36,23 +53,6 @@ export class DocumentService {
     }
 
     return maxId
-  }
-
-  getDocuments(): Document[] {
-    this.http
-      .get('https://cms-project-7478d-default-rtdb.firebaseio.com/documents.json')
-      .subscribe(
-      (documents: Document[]) => {
-        this.documents = documents;
-        this.maxDocumentId = this.getMaxId();
-        this.documents.sort((a, b) => (a.name < b.name) ? 1: (a.name > b.name) ? -1 : 0);
-        this.documentListChangedEvent.next(this.documents.slice());
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    )
-    return this.documents.slice();
   }
 
   storeDocuments() {
