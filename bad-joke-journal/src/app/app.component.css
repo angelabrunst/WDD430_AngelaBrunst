@@ -1,0 +1,9 @@
+main {
+  margin-top: 1em;
+  width: 80%;
+  margin: auto;
+}
+app-entry-create,
+app-entry-list {
+  margin: 1em;
+}

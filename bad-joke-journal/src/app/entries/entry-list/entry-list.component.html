@@ -1,0 +1,13 @@
+<mat-accordion multi="true" *ngIf="entries.length > 0">
+  <mat-expansion-panel *ngFor="let entry of entries">
+    <mat-expansion-panel-header>
+      {{ entry.joke }}
+    </mat-expansion-panel-header>
+    {{ entry.answer }}
+    <mat-action-row>
+      <button mat-raised-button color="primary">UPDATE</button>
+      <button mat-raised-button color="warn">DELETE</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+<p class="info-text mat-body-1" *ngIf="entries.length <= 0">You won't find any lousy jokes here!</p>

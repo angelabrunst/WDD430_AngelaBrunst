@@ -1,4 +1,17 @@
-<textarea rows="6" [(ngModel)]="enteredValue"></textarea>
-<hr>
-<button (click)="onAddEntry()">Save Joke</button>
-<p>{{ newEntry }}</p>
+<mat-card>
+  <form (submit)="onAddEntry(entryForm)" #entryForm="ngForm">
+    <mat-form-field appearance="outline">
+      Tell me a joke...
+      <input matInput type="text" name="joke" ngModel required minlength="3" #joke="ngModel">
+      <mat-error *ngIf="joke.invalid">Please enter a joke...</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      Now for the punchline (drumroll please...)
+      <input matInput type="text" name="answer" ngModel required #answer="ngModel">
+      <mat-error *ngIf="joke.invalid">Don't leave us hanging! Answer the joke!</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">SAVE JOKE</button>
+  </form>
+</mat-card>
+
+

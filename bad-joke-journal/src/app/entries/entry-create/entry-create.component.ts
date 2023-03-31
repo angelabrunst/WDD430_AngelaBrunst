@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { EntriesService } from '../entries.service';
 
 @Component({
   selector: 'app-entry-create',
@@ -6,10 +8,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./entry-create.component.css']
 })
 export class EntryCreateComponent {
-  enteredValue = '';
-  newEntry = 'Test';
 
-  onAddEntry() {
-    this.newEntry = this.enteredValue;
+  constructor(public entriesService: EntriesService) {}
+
+  onAddEntry(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.entriesService.addEntry(form.value.joke, form.value.answer);
+    form.resetForm();
   }
 }
