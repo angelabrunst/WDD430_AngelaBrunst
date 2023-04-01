@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Entry } from './entry.model';
 
@@ -10,10 +12,23 @@ export class EntriesService {
   private entries: Entry[] = [];
   private entriesUpdated = new Subject<Entry[]>();
 
-  constructor() { }
+  constructor(private http: HttpClient ) { }
 
   getEntries() {
-    return [...this.entries];
+    this.http.get<{message: string, entries: any}>('http://localhost:3000/api/entries')
+      .pipe(map((entryData) => {
+        return entryData.entries.map(entry => {
+          return {
+            joke: entry.joke,
+            answer: entry.answer,
+            id: entry._id
+          }
+        });
+      }))
+      .subscribe((transformedEntries) => {
+        this.entries = transformedEntries;
+        this.entriesUpdated.next([...this.entries]);
+      });
   }
 
   getEntriesUpdateListener() {
@@ -21,8 +36,19 @@ export class EntriesService {
   }
 
   addEntry(joke: string, answer: string) {
-    const entry: Entry = {joke: joke, answer: answer};
-    this.entries.push(entry);
-    this.entriesUpdated.next([...this.entries]);
+    const entry: Entry = {id: null, joke: joke, answer: answer};
+    this.http.post<{message: string}>('http://localhost:3000/api/entries', entry)
+      .subscribe((responseData) => {
+        console.log(responseData.message);
+        this.entries.push(entry);
+        this.entriesUpdated.next([...this.entries]);
+      });
+  }
+
+  deleteEntry(entryId: string) {
+    this.http.delete('http://localhost:3000/api/entries/' + entryId)
+      .subscribe(() => {
+        console.log('Deleted');
+      });
   }
 }

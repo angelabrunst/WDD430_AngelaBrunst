@@ -16,11 +16,15 @@ export class EntryListComponent implements OnInit, OnDestroy {
   constructor(public entriesService: EntriesService) {}
 
   ngOnInit() {
-    this.entries = this.entriesService.getEntries();
+    this.entriesService.getEntries();
     this.entriesSub = this.entriesService.getEntriesUpdateListener()
       .subscribe((entries: Entry[]) => {
         this.entries = entries;
       });
+  }
+
+  onDelete(entryId: string) {
+    this.entriesService.deleteEntry(entryId);
   }
 
   ngOnDestroy() {
