@@ -29,9 +29,11 @@ app.post('/api/entries', (req, res, next) => {
     joke: req.body.joke,
     answer: req.body.answer
   });
-  entry.save();
-  res.status(201).json({
-    message: 'Post added successfully'
+  entry.save().then(createdEntry => {
+    res.status(201).json({
+      message: 'Entry added successfully',
+      entryId: createdEntry._id
+    });
   });
 });
 

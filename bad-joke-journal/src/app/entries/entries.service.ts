@@ -37,9 +37,10 @@ export class EntriesService {
 
   addEntry(joke: string, answer: string) {
     const entry: Entry = {id: null, joke: joke, answer: answer};
-    this.http.post<{message: string}>('http://localhost:3000/api/entries', entry)
+    this.http.post<{message: string, entryId: string}>('http://localhost:3000/api/entries', entry)
       .subscribe((responseData) => {
-        console.log(responseData.message);
+        const id = responseData.entryId;
+        entry.id = id;
         this.entries.push(entry);
         this.entriesUpdated.next([...this.entries]);
       });
@@ -48,7 +49,9 @@ export class EntriesService {
   deleteEntry(entryId: string) {
     this.http.delete('http://localhost:3000/api/entries/' + entryId)
       .subscribe(() => {
-        console.log('Deleted');
+        const updatedEntries = this.entries.filter(entry => entry.id !== entryId);
+        this.entries = updatedEntries;
+        this.entriesUpdated.next([...this.entries]);
       });
   }
 }
